@@ -1,49 +1,54 @@
-# -*- coding: latin-1 -*-
-
-import re
-
-
-def parse(string):
-    if ' / ' or ',' in string:                      # Acts SEEM to MOSTLY be split on a forward slash or a comma
-        acts = re.split('\s/\s|,', string)          # split on ' / ' or ','
-        for act in acts:
-            string = stripper(act.strip())
-    else:
-        string = stripper(string)
-
-    string = string.strip() + "\n"
-    return string.encode('utf-8')
+# encoding: utf-8
 
 
 def stripper(string):
-    # while gross, the performance matters so little - this will do for now
-    string = string.replace("\t", "")       # remove those nasty tabs
-    string = string.replace("\n", "")       # newlines
-    string = string.replace(",", "")        # commas
-    string = string.replace("  ", "")       # double spaces
-    string = string.replace(":", "")        # colons
-    string = string.replace("(", "")        # left bracket
-    string = string.replace(")", "")        # right bracket
-    string = string.replace("-", "")        # hyphens
+    string = string.replace("sold out", '')
+    string = string.replace("new", '')
+    string = string.replace('seated', '')
+    string = string.replace('cancelled', '')
+    string = string.replace('last few', '')
+    string = string.replace('selling fast', '')
+    string = string.replace('early bird', '')
+    string = string.replace('date change', '')
+    string = string.replace('venue change', '')
+    string = string.replace('– monday', '')
+    string = string.replace('– tuesday', '')
+    string = string.replace('– wednesday', '')
+    string = string.replace('– thursday', '')
+    string = string.replace('– friday', '')
+    string = string.replace('– saturday', '')
+    string = string.replace('– sunday', '')
+    string = string.replace('– weekend', '')
+    string = string.replace('– friday & saturday', '')
+    string = string.replace('saver tickets', '')
+    string = string.replace('7.30 & 9.20 shows', '')
+    string = string.replace('old tickets valid', '')
+    string = string.replace('old tickets still valid', '')
+    string = string.replace('door time change – now 7.30', '')
+    string = string.replace('& saturday', '')
+    string = string.replace('– old tickets remain valid – door time now 7.00', '')
+    string = string.replace('– old tickets from 07/05 remain valid', '')
+    string = string.replace('off sale', '')
+    string = string.replace("adult day ticket  £54  weekend with camping  £150  weekend no camping  £120", '')
+    string = string.replace("adult supremium vip day ticket £100  weekend with camping  £225 weekend no camping  £210", '')
+    string = string.replace("junior 617 day ticket  £30 weekend  £75", '')
+    string = string.replace("family 2 adults up to 3 children day ticket  £150  weekend with camping  £350", '')
+    string = string.replace("car parking all weekend £8", '')
+    string = string.replace("selling extremely fast", '')
+    string = string.replace("old tickets from 0705 remain valid", '')
+    string = string.replace("saturday only", '')
+    string = string.replace("young adults", '')
+    string = string.replace(",", '')
+    string = string.replace(" ", '')
+    string = string.replace("\t", '')
+    string = string.replace("-", '')
+    string = string.replace("  ", ' ')
+    string = string.replace("–", '')
+    string = string.replace("\?", '')
+    string = string.replace("/", '')
+    string = string.replace(':', '')
+    string = string.replace('\(', '')
+    string = string.replace('\)', '')
+    string = string.replace('18+', '')
+    return string.strip() + "\n"
 
-    # must be a better syntax
-    if 'sold out' in string:
-        string = string.replace('sold out', '')
-    if 'cancelled' in string:
-        string = string.replace('cancelled', '')
-    if 'selling fast' in string:
-        string = string.replace('selling fast', '')
-    if 'last few' in string:
-        string = string.replace('last few', '')
-    if 'early bird' in string:
-        string = string.replace('early bird', '')
-    if 'date change' in string:
-        string = string.replace('date change', '')
-    if 'seated' in string:
-        string = string.replace('seated', '')
-
-    # sketchy
-    if 'new' in string:
-        string = string.replace('new', '')
-
-    return string + "\n"

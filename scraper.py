@@ -1,20 +1,16 @@
-# -*- coding: latin-1 -*-
+# encoding: utf-8
 
 import requests
 
 import parser
 from bs4 import BeautifulSoup
 
-# todo - Is it worth the time to parse it in a cleaner way?
-# todo - Get the first, and last show - and add it to the playlist name
-# todo - Remove all songs from the playlist each time spotify.py is run
-
-
 url = 'http://www.resident-music.com/tickets'
 page = requests.get(url).text
 soup = BeautifulSoup(page, "html.parser")
 table = soup.find('tbody')
-f = open("./Resident.txt", "w")
+
+f = open("./resident.txt", "w+")
 
 
 def scrape_first_column():
@@ -23,8 +19,23 @@ def scrape_first_column():
 
         for cell in row.findAll('td'):
             if is_first_column:
-                text = parser.parse(cell.text)
-                f.write(text)
+                # clean up the scraped text
+                text = cell.text.encode('utf-8')
+
+                # stops duplicate artists from being added
+                artist_set = set()
+
+                # _generally_ acts are split on a ' / '
+                if ' / ' in text:
+                    text = text.split(' / ')
+                    for line in text:
+                        artist_set.add(line)
+                else:
+                    artist_set.add(text)
+
+                for l in artist_set:
+                    f.write(parser.stripper(l))
+
                 is_first_column = False
 
 scrape_first_column()
